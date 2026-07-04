@@ -1,0 +1,101 @@
+:root {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(135deg, #f5f7ff, #eef4ff);
+        color: #1f2937;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+
+      .card {
+        width: min(100%, 480px);
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        padding: 28px;
+      }
+
+      h1 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 1.8rem;
+      }
+
+      p {
+        margin-top: 0;
+        color: #6b7280;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      input {
+        padding: 12px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 1rem;
+      }
+
+      button {
+        padding: 12px 14px;
+        border: none;
+        border-radius: 10px;
+        background: #2563eb;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #1d4ed8;
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .actions button.secondary {
+        background: #e5e7eb;
+        color: #111827;
+      }
+
+      .actions button.secondary:hover {
+        background: #d1d5db;
+      }
+
+      .preview {
+        margin-top: 20px;
+        text-align: center;
+        min-height: 220px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 1px dashed #cbd5e1;
+        border-radius: 16px;
+        padding: 16px;
+        background: #f8fafc;
+      }
+
+      .preview img {
+        max-width: 220px;
+        max-height: 220px;
+        display: none;
+      }
+
+      .message {
+        margin-top: 12px;
+        color: #dc2626;
+        font-size: 0.95rem;
+      }

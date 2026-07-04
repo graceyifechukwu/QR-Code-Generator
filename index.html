@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <h1>QR Code Generator</h1>
+      <p>Enter a website link and generate a downloadable QR code.</p>
+
+      <form id="qrForm">
+        <input
+          id="urlInput"
+          type="text"
+          placeholder="https://example.com"
+          required
+        />
+        <button type="submit">Generate QR Code</button>
+      </form>
+
+      <div class="preview" id="previewBox">
+        <img id="qrImage" alt="Generated QR code" />
+        <p id="previewText">Your QR code will appear here.</p>
+      </div>
+      <div class="message" id="messageBox"></div>
+
+      <div class="actions">
+        <button id="downloadBtn" class="secondary" type="button" disabled>
+          Download PNG
+        </button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.1.0/build/qrcode.min.js"></script>
+    <script>
+      const form = document.getElementById("qrForm");
+      const input = document.getElementById("urlInput");
+      const qrImage = document.getElementById("qrImage");
+      const previewText = document.getElementById("previewText");
+      const messageBox = document.getElementById("messageBox");
+      const downloadBtn = document.getElementById("downloadBtn");
+      let currentDataUrl = "";
+
+      function showMessage(text, isError = false) {
+        messageBox.textContent = text;
+        messageBox.style.color = isError ? "#dc2626" : "#16a34a";
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const rawValue = input.value.trim();
+
+        if (!rawValue) {
+          showMessage("Please enter a website link.", true);
+          return;
+        }
+
+        let value = rawValue;
+        if (!/^https?:\/\//i.test(value)) {
+          value = `https://${value}`;
+        }
+
+        try {
+          new URL(value);
+        } catch {
+          showMessage("Please enter a valid URL.", true);
+          return;
+        }
+
+        try {
+          currentDataUrl = await QRCode.toDataURL(value, {
+            width: 300,
+            margin: 2,
+          });
+
+          qrImage.src = currentDataUrl;
+          qrImage.style.display = "block";
+          previewText.style.display = "none";
+          downloadBtn.disabled = false;
+          showMessage("QR code generated successfully.");
+        } catch (error) {
+          showMessage("Unable to generate QR code right now.", true);
+          console.error(error);
+        }
+      });
+
+      downloadBtn.addEventListener("click", () => {
+        if (!currentDataUrl) return;
+
+        const link = document.createElement("a");
+        link.href = currentDataUrl;
+        link.download = "qr-code.png";
+        link.click();
+      });
+    </script>
+  </body>
+</html>
