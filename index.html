@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <div class="hero">
+      <h1>QR Code Generator</h1>
+      <p>Generate a QR code for any website link.</p >
+      <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="QR Code Icon" class="icon" />
+    </div>
     <div class="card">
       <h1>QR Code Generator</h1>
       <p>Enter a website link and generate a downloadable QR code.</p>
@@ -34,67 +39,23 @@
       </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.1.0/build/qrcode.min.js"></script>
+    <div class="footer">
+      <p>
+        Made with ❤️ by
+        <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+         gracey.dev
+        </a>
+      </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script>
-      const form = document.getElementById("qrForm");
-      const input = document.getElementById("urlInput");
-      const qrImage = document.getElementById("qrImage");
-      const previewText = document.getElementById("previewText");
-      const messageBox = document.getElementById("messageBox");
-      const downloadBtn = document.getElementById("downloadBtn");
-      let currentDataUrl = "";
-
-      function showMessage(text, isError = false) {
-        messageBox.textContent = text;
-        messageBox.style.color = isError ? "#dc2626" : "#16a34a";
+      if (!window.QRCode) {
+        const fallback = document.createElement("script");
+        fallback.src = "https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js";
+        document.head.appendChild(fallback);
       }
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const rawValue = input.value.trim();
-
-        if (!rawValue) {
-          showMessage("Please enter a website link.", true);
-          return;
-        }
-
-        let value = rawValue;
-        if (!/^https?:\/\//i.test(value)) {
-          value = `https://${value}`;
-        }
-
-        try {
-          new URL(value);
-        } catch {
-          showMessage("Please enter a valid URL.", true);
-          return;
-        }
-
-        try {
-          currentDataUrl = await QRCode.toDataURL(value, {
-            width: 300,
-            margin: 2,
-          });
-
-          qrImage.src = currentDataUrl;
-          qrImage.style.display = "block";
-          previewText.style.display = "none";
-          downloadBtn.disabled = false;
-          showMessage("QR code generated successfully.");
-        } catch (error) {
-          showMessage("Unable to generate QR code right now.", true);
-          console.error(error);
-        }
-      });
-
-      downloadBtn.addEventListener("click", () => {
-        if (!currentDataUrl) return;
-
-        const link = document.createElement("a");
-        link.href = currentDataUrl;
-        link.download = "qr-code.png";
-        link.click();
-      });
     </script>
+    <script src="index.js"></script>
   </body>
 </html>
